@@ -1,0 +1,30 @@
+/* App-level styles - minimal, letting design system handle everything */
+
+.App {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Ensure no overflow issues */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Smooth scrolling when needed */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove default focus outlines, use ring instead */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}

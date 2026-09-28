@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* Color picker styles */
+.color-picker-wrapper .react-colorful {
+    width: 100%;
+    height: 150px;
+}
+
+.color-picker-wrapper .react-colorful__saturation {
+    border-radius: 4px 4px 0 0;
+}
+
+.color-picker-wrapper .react-colorful__hue {
+    height: 12px;
+    border-radius: 0 0 4px 4px;
+}
+
+.color-picker-wrapper .react-colorful__saturation-pointer,
+.color-picker-wrapper .react-colorful__hue-pointer {
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+@layer base {
+    :root {
+        /* Dark night aesthetic - primary palette */
+        --background: 0 0% 2%;
+        --foreground: 0 0% 95%;
+        
+        /* Card and surface colors */
+        --card: 0 0% 4%;
+        --card-foreground: 0 0% 95%;
+        --popover: 0 0% 4%;
+        --popover-foreground: 0 0% 95%;
+        
+        /* Primary - bright white for sticks */
+        --primary: 0 0% 100%;
+        --primary-foreground: 0 0% 0%;
+        
+        /* Secondary - soft gray */
+        --secondary: 0 0% 12%;
+        --secondary-foreground: 0 0% 90%;
+        
+        /* Muted tones */
+        --muted: 0 0% 8%;
+        --muted-foreground: 0 0% 55%;
+        
+        /* Accent - subtle glow */
+        --accent: 0 0% 15%;
+        --accent-foreground: 0 0% 95%;
+        
+        /* State colors */
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        
+        /* Borders and inputs */
+        --border: 0 0% 12%;
+        --input: 0 0% 12%;
+        --ring: 0 0% 50%;
+        
+        /* Chart colors */
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+        
+        --radius: 0.5rem;
+    }
+    
+    .dark {
+        --background: 0 0% 2%;
+        --foreground: 0 0% 95%;
+        --card: 0 0% 4%;
+        --card-foreground: 0 0% 95%;
+        --popover: 0 0% 4%;
+        --popover-foreground: 0 0% 95%;
+        --primary: 0 0% 100%;
+        --primary-foreground: 0 0% 0%;
+        --secondary: 0 0% 12%;
+        --secondary-foreground: 0 0% 90%;
+        --muted: 0 0% 8%;
+        --muted-foreground: 0 0% 55%;
+        --accent: 0 0% 15%;
+        --accent-foreground: 0 0% 95%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 12%;
+        --input: 0 0% 12%;
+        --ring: 0 0% 50%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+/* Kinetic stick styling - using rgba for reliable rendering */
+.stick {
+    position: absolute;
+    width: 4px;
+    height: 36px;
+    background: linear-gradient(
+        to bottom,
+        rgba(220, 220, 220, 1),
+        rgba(120, 120, 120, 1)
+    );
+    border-radius: 3px;
+    transform-origin: center center;
+    will-change: transform;
+    transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 0 12px rgba(220, 220, 220, 0.6);
+    z-index: 1;
+}
+
+.stick::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.8);
+}
+
+.stick::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: rgba(180, 180, 180, 0.8);
+    border-radius: 50%;
+}
+
+.stick.revealing {
+    transition: transform 3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stick.revealed {
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 1),
+        rgba(220, 220, 220, 1)
+    );
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
+    width: 5px;
+}
+
+.stick.revealed::before {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+    width: 10px;
+    height: 10px;
+}
+
+.stick.revealed::after {
+    background: rgba(240, 240, 240, 0.95);
+    width: 8px;
+    height: 8px;
+}
+
+/* Grid container */
+.clock-grid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: hsl(var(--background));
+}
+
+/* Subtle vignette effect */
+.vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        transparent 50%,
+        rgba(5, 5, 5, 0.8) 100%
+    );
+    z-index: 10;
+}
+
+/* Info panel styling */
+.info-panel {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    text-align: center;
+}
+
+.time-display {
+    font-size: 0.875rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: rgba(140, 140, 140, 1);
+    text-transform: uppercase;
+}
+
+.countdown {
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: rgba(100, 100, 100, 0.8);
+    margin-top: 0.5rem;
+}
+
+/* Pulse animation for reveal moment */
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.revealing-time {
+    animation: pulse-glow 2s ease-in-out infinite;
+    color: rgba(200, 200, 200, 1);
+}
+
+@layer base {
+    [data-debug-wrapper="true"] {
+        display: contents !important;
+    }
+
+    [data-debug-wrapper="true"] > * {
+        margin-left: inherit;
+        margin-right: inherit;
+        margin-top: inherit;
+        margin-bottom: inherit;
+        padding-left: inherit;
+        padding-right: inherit;
+        padding-top: inherit;
+        padding-bottom: inherit;
+        column-gap: inherit;
+        row-gap: inherit;
+        gap: inherit;
+        border-left-width: inherit;
+        border-right-width: inherit;
+        border-top-width: inherit;
+        border-bottom-width: inherit;
+        border-left-style: inherit;
+        border-right-style: inherit;
+        border-top-style: inherit;
+        border-bottom-style: inherit;
+        border-left-color: inherit;
+        border-right-color: inherit;
+        border-top-color: inherit;
+        border-bottom-color: inherit;
+    }
+}
