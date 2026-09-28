@@ -1,0 +1,7 @@
+version: "3.8"
+
+services:
+  sticksclock:
+    build: .
+    ports:
+      - "8082:3000"
